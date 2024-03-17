@@ -110,7 +110,7 @@ class TextToSpeech {
    *
    * @returns {TextToSpeech} - The current instance of `TextToSpeech` for method chaining.
    */
-  setVoiceTest = (utteranceText: string): TextToSpeech => {
+  setVoiceText = (utteranceText: string): TextToSpeech => {
     this.utterance.text = utteranceText;
 
     return this;

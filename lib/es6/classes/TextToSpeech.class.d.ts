@@ -73,7 +73,7 @@ declare class TextToSpeech {
      *
      * @returns {TextToSpeech} - The current instance of `TextToSpeech` for method chaining.
      */
-    setVoiceTest: (utteranceText: string) => TextToSpeech;
+    setVoiceText: (utteranceText: string) => TextToSpeech;
     /**
      * Get available voices.
      * @param {string} optionalCountryCodeFilter - Optional country code filter.
