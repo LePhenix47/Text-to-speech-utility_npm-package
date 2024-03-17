@@ -127,7 +127,7 @@ class TextToSpeech {
       return voices;
     }
 
-    return voices.filter((voice) =>
+    return voices.filter((voice: SpeechSynthesisVoice) =>
       voice.lang.includes(optionalCountryCodeFilter)
     );
   };
