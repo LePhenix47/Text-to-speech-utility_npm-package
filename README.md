@@ -20,7 +20,7 @@ The `@lephenix47/text-to-speech-utility` package provides a convenient utility c
 To use the `TextToSpeech` utility class in your project, you can import it as follows:
 
 ```ts
-import TextToSpeech from '@lephenix47/text-to-speech-utility';
+import { TextToSpeech } from '@lephenix47/text-to-speech-utility';
 
 const tts = new TextToSpeech();
 
