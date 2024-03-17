@@ -1,6 +1,6 @@
 {
   "name": "@lephenix47/text-to-speech-utility",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "description",
   "main": "lib/es6/index.js",
   "module": "lib/commonjs/index.js",
