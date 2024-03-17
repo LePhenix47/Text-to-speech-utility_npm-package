@@ -1,0 +1,46 @@
+{
+  "name": "@lephenix47/text-to-speech-utility",
+  "version": "1.0.0",
+  "description": "description",
+  "main": "lib/es6/index.js",
+  "module": "lib/commonjs/index.js",
+  "types": "lib/es6/index.d.ts",
+  "type": "module",
+  "exports": {
+    ".": "./lib/index.js",
+    "./lib": "./lib/index.js",
+    "./classes": "./lib/classes/.class.js"
+  },
+  "typesVersion": {
+    "*": {
+      "*": [
+        "types"
+      ]
+    }
+  },
+  "scripts": {
+    "ts-cmd": "rmdir /s /q  lib && tsc && tsc --build",
+    "ts-bash": "rm -rf ./ lib && tsc && tsc --build",
+    "publish": "npm publish --access=public",
+    "update-version": "node update-project-version.mjs && git add . && git commit -m \"Update on the project version\" && git push",
+    "git:push": "git push && npm run update-version && npm run publish"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LePhenix47/[URL].git"
+  },
+  "files": [
+    "lib/**/*"
+  ],
+  "keywords": [],
+  "author": "Younes LAHOUITI",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/LePhenix47/[URL]/issues"
+  },
+  "homepage": "https://github.com/LePhenix47/[URL]#readme",
+  "devDependencies": {
+    "ts-loader": "^9.4.3",
+    "typescript": "^5.1.3"
+  }
+}
