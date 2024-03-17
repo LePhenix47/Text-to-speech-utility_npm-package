@@ -7,9 +7,7 @@
   "types": "lib/es6/index.d.ts",
   "type": "module",
   "exports": {
-    ".": "./lib/index.js",
-    "./lib": "./lib/index.js",
-    "./classes": "./lib/classes/.class.js"
+    ".": "./lib/es6/index.js"
   },
   "typesVersion": {
     "*": {
