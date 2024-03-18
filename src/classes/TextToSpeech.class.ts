@@ -21,32 +21,13 @@ class TextToSpeech {
    * @private
    * @type {SpeechSynthesisUtterance}
    * @readonly
-   * Represents the internal [object utilized for controlling speech synthesis](https://developer.mozilla.org/en-US/docs/Web/API/SpeechSynthesisUtterance/SpeechSynthesisUtterance). Instantiated privately and immutably scoped to each individual TextToSpeech instance.
+   * Represents the internal [object utilized for controlling speech synthesis](https://developer.mozilla.org/en-US/docs/Web/API/SpeechSynthesisUtterance/SpeechSynthesisUtterance).
+   * Instantiated privately and immutably scoped to each individual `TextToSpeech` instance.
    */
   private readonly utterance: SpeechSynthesisUtterance;
 
   constructor() {
     this.utterance = new SpeechSynthesisUtterance();
-  }
-
-  /**
-   * Clamps a value between a minimum and maximum range.
-   *
-   * @param {number} min - The minimum value of the range.
-   * @param {number} value - The value to be clamped.
-   * @param {number} max - The maximum value of the range.
-   * @returns {number} - The clamped value.
-   *
-   * @private
-   */
-  private clamp(min: number, value: number, max: number): number {
-    // * We avoid underflowing
-    const minClampedValue = Math.max(value, min);
-
-    // * We avoid overflowing
-    const fullyClampedValue = Math.min(minClampedValue, max);
-
-    return fullyClampedValue;
   }
 
   /**
@@ -117,6 +98,126 @@ class TextToSpeech {
   };
 
   /**
+   * Set the `onvoiceschanged` event listener.
+   *
+   * Listens for changes in available voices and triggers a callback with the updated list of voices.
+   *
+   * @param {(newVoices: SpeechSynthesisVoice[]) => any} callback - The callback function to handle the event.
+   *
+   * @returns {TextToSpeech} The current instance of the TextToSpeech class.
+   */
+  setOnVoicesChanged = (callback: (...args: any[]) => any): TextToSpeech => {
+    speechSynthesis.addEventListener("voiceschanged", () => {
+      callback(this.getVoices());
+    });
+
+    return this;
+  };
+
+  /**
+   * Set the `onboundary` event handler.
+   *
+   * Fired when reaching a boundary like a word, sentence, or phrase during pronunciation.
+   *
+   * @param {(event: SpeechSynthesisEvent) => any} handler - Callback function triggered when reaching the boundary.
+   *
+   * @returns {TextToSpeech} The current instance of the `TextToSpeech` class.
+   */
+  setOnBoundary(handler: (ev?: SpeechSynthesisEvent) => any): TextToSpeech {
+    this.utterance.onboundary = handler;
+
+    return this;
+  }
+  /**
+   * Set the `onend` event handler when the speech ends
+   *
+   * Invoked once speech successfully finishes playing.
+   *
+   * @param {(event: SpeechSynthesisEvent) => any} handler - Callback function invoked once speech ends.
+   *
+   * @returns {TextToSpeech} The current instance of the `TextToSpeech` class.
+   */
+  setOnEnd(handler: (ev?: SpeechSynthesisEvent) => any): TextToSpeech {
+    this.utterance.onend = handler;
+
+    return this;
+  }
+
+  /**
+   * Set the `onerror` event handler.
+   *
+   * Executed when an error occurs during speech synthesis.
+   *
+   * @param {(event: SpeechSynthesisEvent) => any} handler - Callback function fired when an error occurs.
+   *
+   * @returns {TextToSpeech} The current instance of the `TextToSpeech` class.
+   */
+  setOnError(handler: (ev?: SpeechSynthesisEvent) => any): TextToSpeech {
+    this.utterance.onerror = handler;
+
+    return this;
+  }
+
+  /**
+   * Set the `onmark` event handler.
+   *
+   * @param {(ev?: SpeechSynthesisEvent) => any} handler - Callback function
+   *
+   * @returns {TextToSpeech} The current instance of the `TextToSpeech` class.
+   *
+   */
+  setOnMark(handler: (ev?: SpeechSynthesisEvent) => any): TextToSpeech {
+    this.utterance.onmark = handler;
+
+    return this;
+  }
+
+  /**
+   * Set the `onpause` event handler.
+   *
+   * Activated when speech synthesis is temporarily stopped, either manually or programmatically.
+   *
+   * @param {(event: SpeechSynthesisEvent) => any} handler - Callback function activated when speech pauses.
+   *
+   * @returns {TextToSpeech} The current instance of the `TextToSpeech` class.
+   */
+  setOnPause(handler: (ev?: SpeechSynthesisEvent) => any): TextToSpeech {
+    this.utterance.onpause = handler;
+
+    return this;
+  }
+
+  /**
+   * Set the `onresume` event handler.
+   *
+   * Engaged when speech synthesis resumes, either manually or programmatically, after a pause.
+   *
+   * @param {(event: SpeechSynthesisEvent) => any} handler - Callback function engaged when speech resumes.
+   *
+   * @returns {TextToSpeech} The current instance of the `TextToSpeech` class.
+   */
+  setOnResume(handler: (ev?: SpeechSynthesisEvent) => any): TextToSpeech {
+    this.utterance.onresume = handler;
+
+    return this;
+  }
+
+  /**
+   * Set the `onstart` event handler.
+   *
+   * Launched when speech synthesis begins.
+   *
+   * @param {(event: SpeechSynthesisEvent) => any} handler - Callback function launched when speech begins.
+   *
+   * @returns {TextToSpeech} The current instance of the `TextToSpeech` class.
+   */
+  setOnStart(handler: (ev?: SpeechSynthesisEvent) => any): TextToSpeech {
+    this.utterance.onstart = handler;
+
+    return this;
+  }
+
+  /**
    * Get available voices.
    * @param {string} optionalCountryCodeFilter - Optional country code filter.
    * @returns Array of available SpeechSynthesisVoice objects.
@@ -134,52 +235,80 @@ class TextToSpeech {
 
   /**
    * Speak the given text.
-   * @param utteranceText - Text to speak.
    */
   speak = (): void => {
     speechSynthesis.speak(this.utterance);
   };
 
   /**
-   * Cancel speech.
+   * Stop the ongoing speech synthesis immediately.
+   * @returns {void}
    */
   cancelSpeech = (): void => {
     speechSynthesis.cancel();
   };
 
   /**
-   * Pause speech.
+   * Suspend the ongoing speech until explicitly resumed.
+   * @returns {void}
    */
   pauseSpeech = (): void => {
     speechSynthesis.pause();
   };
 
   /**
-   * Resume speech.
+   * Continue suspended speech or initiate speaking if no prior synthesis was started.
+   * @returns {void}
    */
   resumeSpeech = (): void => {
     speechSynthesis.resume();
   };
 
   /**
-   * Readonly property: Indicates if speech is paused.
+   * Property indicating whether speech synthesis is currently paused.
+   * @returns {boolean} `true` if speech is paused, `false` otherwise.
+   * @readonly
    */
   get isPaused(): boolean {
     return speechSynthesis.paused;
   }
 
   /**
-   * Readonly property: Indicates if speech is speaking.
+   * Property indicating whether speech synthesis is actively producing audio output.
+   * @returns {boolean} `true` if speech is speaking, `false` otherwise.
+   * @readonly
    */
   get isSpeaking(): boolean {
     return speechSynthesis.speaking;
   }
 
   /**
-   * Readonly property: Indicates if there is pending speech.
+   * Property indicating whether there is pending speech to be rendered by the Web Speech API.
+   * @returns {boolean} `true` if speech is pending, `false` otherwise.
+   * @readonly
    */
   get isPending(): boolean {
     return speechSynthesis.pending;
+  }
+
+  /**
+   * Clamps a value between a minimum and maximum range.
+   *
+   * @param {number} min - The minimum value of the range.
+   * @param {number} value - The value to be clamped.
+   * @param {number} max - The maximum value of the range.
+   * @returns {number} - The clamped value.
+   *
+   * @private
+   */
+  private clamp(min: number, value: number, max: number): number {
+    // * We avoid underflowing
+    const minClampedValue = Math.max(value, min);
+
+    // * We avoid overflowing
+    const fullyClampedValue = Math.min(minClampedValue, max);
+
+    return fullyClampedValue;
   }
 }
 
