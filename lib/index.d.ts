@@ -1,1 +1,2 @@
-export { default as TextToSpeech } from "./classes/TextToSpeech.class";
+import TextToSpeech from "./classes/TextToSpeech.class";
+export { TextToSpeech };
