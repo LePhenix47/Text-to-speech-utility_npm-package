@@ -2,12 +2,11 @@
   "name": "@lephenix47/text-to-speech-utility",
   "version": "1.1.0",
   "description": "description",
-  "main": "lib/es6/index.js",
-  "module": "lib/commonjs/index.js",
-  "types": "lib/es6/index.d.ts",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
   "type": "module",
   "exports": {
-    ".": "./lib/es6/index.js"
+    ".": "./lib/index.js"
   },
   "typesVersion": {
     "*": {
@@ -21,7 +20,7 @@
     "ts-bash": "rm -rf ./ lib && tsc && tsc --build",
     "publish": "npm publish --access=public",
     "update-version": "node update-project-version.mjs && git add . && git commit -m \"Update on the project version\" && git push",
-    "git:push": "git push && npm run update-version && npm run publish"
+    "push-lib": "(git diff --quiet || (echo 'You have uncommitted changes. Please commit your changes first.' && exit 1)) && npm run update-version && npm run publish"
   },
   "repository": {
     "type": "git",
